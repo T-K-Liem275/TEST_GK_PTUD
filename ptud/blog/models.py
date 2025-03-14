@@ -3,6 +3,12 @@ from django.contrib.auth.models import User
 from django.utils.timezone import now
 from django.urls import reverse
 
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
 class Task(models.Model):
     STATUS_CHOICES = [
         ('P', 'Pending'),
@@ -23,5 +29,3 @@ class Task(models.Model):
     
     def get_absolute_url(self):
         return reverse('task-detail', kwargs={'pk': self.pk})
-    
-    

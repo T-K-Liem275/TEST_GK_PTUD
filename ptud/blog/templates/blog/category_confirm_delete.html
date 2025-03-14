@@ -1,0 +1,9 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h2>Xóa Danh Mục "{{ category.name }}"?</h2>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Xác nhận xóa</button>
+</form>
+<a href="{% url 'category-list' %}">Hủy</a>
+{% endblock %}

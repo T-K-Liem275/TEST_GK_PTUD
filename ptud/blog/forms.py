@@ -1,5 +1,10 @@
 from django import forms
-from .models import Task
+from .models import Task, Category
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
 
 class TaskForm(forms.ModelForm):
     finished = forms.DateField(

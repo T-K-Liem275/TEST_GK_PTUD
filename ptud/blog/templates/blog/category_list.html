@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h2>Danh Sách Danh Mục</h2>
+<ul>
+    {% for category in categories %}
+        <li>
+            {{ category.name }} - 
+            <a href="{% url 'category-update' category.pk %}">Sửa</a> | 
+            <a href="{% url 'category-delete' category.pk %}">Xóa</a>
+        </li>
+    {% empty %}
+        <li>Chưa có danh mục nào.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'category-create' %}">➕ Thêm Danh Mục</a>
+{% endblock %}

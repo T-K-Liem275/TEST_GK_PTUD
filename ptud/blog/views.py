@@ -1,12 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Task
-from .forms import TaskForm
+from .models import Task, Category
+from .forms import TaskForm, CategoryForm
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
@@ -46,3 +45,36 @@ class TaskDeleteView(DeleteView):
     model = Task
     template_name = 'blog/task_confirm_delete.html'
     success_url = '/'
+    
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'blog/category_list.html', {'categories': categories})
+
+def category_create(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('category-list')
+    else:
+        form = CategoryForm()
+    return render(request, 'blog/category_form.html', {'form': form})
+
+def category_update(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category-list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'blog/category_form.html', {'form': form})
+
+def category_delete(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category-list')
+    return render(request, 'blog/category_confirm_delete.html', {'category': category})
+
