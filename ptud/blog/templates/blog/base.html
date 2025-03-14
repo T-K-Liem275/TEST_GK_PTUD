@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Task Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="{% url 'home' %}" class="logo">Task Manager</a>
+            <nav>
+                {% if user.is_authenticated %}
+                    <div class="user-card">
+                        <img src="{{ user.profile.image.url }}" alt="Avatar" class="avatar">
+                        <div class="user-info">
+                            <strong>{{ user.username }}</strong>
+                            <div class="user-links">
+                                <a href="{% url 'profile' %}">Profile</a>
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="auth-links">
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'register' %}">Register</a>
+                    </div>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>&copy; 2025 Task Manager</footer>
+
+    <script>
+        $(document).ready(function() {
+            $('#id_finished').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm',
+                stepping: 15,
+                useCurrent: false
+            });
+        });
+    </script>
+</body>
+</html>

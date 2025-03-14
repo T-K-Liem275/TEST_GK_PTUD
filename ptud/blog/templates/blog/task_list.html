@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h2>📋 Danh Sách Công Việc</h2>
+        </div>
+        <div class="card-body">
+            {% if tasks %}
+                <ul class="task-list">
+                    {% for task in tasks %}
+                        <li class="task-item">
+                            <a href="{% url 'task-detail' task.pk %}" class="task-link">{{ task.title }}</a>
+                            <span class="task-status">{{ task.get_status_display }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="no-tasks">Chưa có công việc nào.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'task-create' %}" class="btn btn-primary">➕ Thêm Công Việc</a>
+        </div>
+    </div>
+{% endblock %}

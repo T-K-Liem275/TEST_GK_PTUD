@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ object.title }}</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Mô tả:</strong> {{ object.description }}</p>
+            <p><strong>Tình trạng:</strong> {{ object.get_status_display }}</p>
+            <p><strong>Ngày tạo:</strong> {{ object.created }}</p>
+            <p><strong>Ngày hoàn thành:</strong> {{ object.finished }}</p>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'task-update' object.id %}" class="btn btn-warning">✏ Sửa</a>
+            <a href="{% url 'task-delete' object.id %}" class="btn btn-danger">🗑 Xóa</a>
+        </div>
+    </div>
+{% endblock %}
